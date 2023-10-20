@@ -1,12 +1,14 @@
 import turtle as t
 import random
+import time 
+
 class Board():
     def __init__(self):
         self.tiles = [
-            [0, 0, 0, 2],
-            [2, 2, 2, 2],
-            [0, 0, 2, 2],
-            [0, 0, 2, 2]  
+            [0, 2, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 2, 0],
+            [2, 0, 2, 0]  
         ]
         self.count_step = 0
         
@@ -74,16 +76,58 @@ class Board():
         self.random_num()
         self.count_step += 1
 
+    def empty_cell(self):
+        empty = []
+        for i in range(4):
+            for j in range(4):
+                if self.tiles[i][j] == 0:
+                    empty.append((i,j))
+        return empty
+
     def random_num(self):
-        row = random.randint(0,3)
-        col = random.randint(0,3)
-        if self.count_step % 2 == 0 and self.tiles[row][col] == 0:
+        empty = self.empty_cell()
+        x = random.randint(0,len(empty) - 1)
+        row = empty[x][0]
+        col = empty[x][-1]
+        if self.count_step % 2 == 0:
             self.tiles[row][col] = 2
         self.draw_tiles()
 
-            
+    def you_won(self):
+        for j in range(4):
+            for i in range(1, 4):
+                if self.tiles[i][j] == 2048:
+                    return True
+        return False      
 
+    def print_won(self):
+        win = t.Turtle()
+        win.hideturtle()
+        win.penup()
+        win.goto(0,240)
+        win.write("You Won!", align="center", font=("Arial", 40, "normal"))        
         
+    def no_valid_moves(self):
+        for i in range(4):
+            for j in range(4):
+                if self.tiles[i][j] == 0:
+                    return False 
+                if i > 0 and self.tiles[i][j] == self.tiles[i - 1][j]:
+                    return False
+                if i < 3 and self.tiles[i][j] == self.tiles[i + 1][j]:
+                    return False
+                if j > 0 and self.tiles[i][j] == self.tiles[i][j - 1]:
+                    return False
+                if j < 3 and self.tiles[i][j] == self.tiles[i][j + 1]:
+                    return False
+        return True  
+
+    def print_gameover(self):
+        win = t.Turtle()
+        win.hideturtle()
+        win.penup()
+        win.goto(0,240)
+        win.write("Game Over!", align="center", font=("Arial", 40, "normal"))    
 
     def draw_grid(self):
         grid = t.Turtle()
