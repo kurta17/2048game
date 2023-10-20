@@ -3,10 +3,10 @@ import random
 class Board():
     def __init__(self):
         self.tiles = [
-            [0, 2, 0, 2],
-            [2, 2, 0, 2],
-            [2, 0, 2, 2],
-            [0, 0, 0, 0]  
+            [0, 0, 0, 2],
+            [2, 2, 2, 2],
+            [0, 0, 2, 2],
+            [0, 0, 2, 2]  
         ]
         
 
@@ -33,11 +33,42 @@ class Board():
                     while x > -1 and x < 3 and self.tiles[x+1][row] == 0:
                         self.tiles[x+1][row] = self.tiles[x][row]
                         self.tiles[x][row] = 0
-                        x -= 1
+                        x += 1
                     if x > -1 and x < 3 and self.tiles[x+1][row] == self.tiles[x][row]:
                         self.tiles[x+1][row] += self.tiles[x][row]
                         self.tiles[x][row] = 0
         self.draw_tiles()
+
+    def move_left(self):
+        for col in range(4):
+            for row in range(1,4):
+                if self.tiles[col][row] != 0:
+                    x = row
+                    while x > 0 and self.tiles[col][x - 1] == 0:
+                        self.tiles[col][x - 1] = self.tiles[col][x]
+                        self.tiles[col][x] = 0
+                        x -= 1
+                    if x > 0 and self.tiles[col][x - 1] == self.tiles[col][x]:
+                        self.tiles[col][x - 1] += self.tiles[col][x]
+                        self.tiles[col][x] = 0 
+                     
+        self.draw_tiles()
+
+    def move_right(self):
+        for col in range(4):
+            for row in range(2,-1,-1):
+                if self.tiles[col][row] != 0:
+                    x = row
+                    while x < 3  and self.tiles[col][x + 1] == 0:
+                        self.tiles[col][x + 1] = self.tiles[col][x]
+                        self.tiles[col][x] = 0
+                        x += 1
+                    if x < 3 and self.tiles[col][x + 1] == self.tiles[col][x]:
+                        self.tiles[col][x + 1] += self.tiles[col][x]
+                        self.tiles[col][x] = 0 
+                     
+        self.draw_tiles()
+        
 
     def draw_grid(self):
         grid = t.Turtle()
