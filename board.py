@@ -8,6 +8,7 @@ class Board():
             [0, 0, 2, 2],
             [0, 0, 2, 2]  
         ]
+        self.count_step = 0
         
 
 
@@ -23,7 +24,8 @@ class Board():
                     if x > 0 and self.tiles[x-1][j] == self.tiles[x][j]:
                         self.tiles[x-1][j] += self.tiles[x][j]
                         self.tiles[x][j] = 0
-        self.draw_tiles()
+        self.random_num()
+        self.count_step += 1
 
     def move_down(self):
         for row in range(4):
@@ -37,7 +39,8 @@ class Board():
                     if x > -1 and x < 3 and self.tiles[x+1][row] == self.tiles[x][row]:
                         self.tiles[x+1][row] += self.tiles[x][row]
                         self.tiles[x][row] = 0
-        self.draw_tiles()
+        self.random_num()
+        self.count_step += 1
 
     def move_left(self):
         for col in range(4):
@@ -52,7 +55,8 @@ class Board():
                         self.tiles[col][x - 1] += self.tiles[col][x]
                         self.tiles[col][x] = 0 
                      
-        self.draw_tiles()
+        self.random_num()
+        self.count_step += 1
 
     def move_right(self):
         for col in range(4):
@@ -67,7 +71,18 @@ class Board():
                         self.tiles[col][x + 1] += self.tiles[col][x]
                         self.tiles[col][x] = 0 
                      
+        self.random_num()
+        self.count_step += 1
+
+    def random_num(self):
+        row = random.randint(0,3)
+        col = random.randint(0,3)
+        if self.count_step % 2 == 0 and self.tiles[row][col] == 0:
+            self.tiles[row][col] = 2
         self.draw_tiles()
+
+            
+
         
 
     def draw_grid(self):
