@@ -3,11 +3,41 @@ import random
 class Board():
     def __init__(self):
         self.tiles = [
-            [0, 0, 0, 2],
-            [0, 0, 0, 2],
-            [0, 0, 2, 2],
-            [0, 0, 0, 0]  # Use 0 to represent the empty cell
+            [0, 2, 0, 2],
+            [2, 2, 0, 2],
+            [2, 0, 2, 2],
+            [0, 0, 0, 0]  
         ]
+        
+
+
+    def move_up(self):
+        for j in range(4):
+            for i in range(1, 4):
+                if self.tiles[i][j] != 0:
+                    x = i
+                    while x > 0 and self.tiles[x-1][j] == 0:
+                        self.tiles[x-1][j] = self.tiles[x][j]
+                        self.tiles[x][j] = 0
+                        x -= 1
+                    if x > 0 and self.tiles[x-1][j] == self.tiles[x][j]:
+                        self.tiles[x-1][j] += self.tiles[x][j]
+                        self.tiles[x][j] = 0
+        self.draw_tiles()
+
+    def move_down(self):
+        for row in range(4):
+            for col in range(2, -1,-1):
+                if self.tiles[col][row] != 0:
+                    x = col
+                    while x > -1 and x < 3 and self.tiles[x+1][row] == 0:
+                        self.tiles[x+1][row] = self.tiles[x][row]
+                        self.tiles[x][row] = 0
+                        x -= 1
+                    if x > -1 and x < 3 and self.tiles[x+1][row] == self.tiles[x][row]:
+                        self.tiles[x+1][row] += self.tiles[x][row]
+                        self.tiles[x][row] = 0
+        self.draw_tiles()
 
     def draw_grid(self):
         grid = t.Turtle()

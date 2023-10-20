@@ -8,5 +8,12 @@ board = Board()
 board.draw_grid()
 board.draw_tiles()
 
+screen.listen()
+screen.onkey(fun=board.move_up , key="Up")
+screen.onkey(fun=board.move_down , key="Down")
+# screen.onkey(fun=board.left , key="Left")
+# screen.onkey(fun=board.right , key="Right")
+
+screen.update()
 
 t.done()
