@@ -127,29 +127,31 @@ class Board():
         win.hideturtle()
         win.penup()
         win.goto(0,240)
-        win.write("Game Over!", align="center", font=("Arial", 40, "normal"))    
+        win.write("Game Over!", align="center", font=("Arial", 40, "normal")) 
 
+ 
     def draw_grid(self):
         grid = t.Turtle()
-        grid.penup()
-        grid.hideturtle()
         grid.speed(0)
+        grid.hideturtle()
+        t.bgcolor("white")  # Set background color
+
+        def draw_square():
+            grid.fillcolor("gray")  # Set fill color to gray
+            grid.begin_fill()
+            for _ in range(4):
+                grid.forward(50)
+                grid.right(90)
+            grid.end_fill()
 
         x, y = -125, 135
-        
-        for row in self.tiles:
-            for tile in row:
+
+        for _ in range(4):
+            for _ in range(4):
+                grid.penup()
                 grid.goto(x, y)
                 grid.pendown()
-                grid.forward(50)
-                grid.right(90)
-                grid.forward(50)
-                grid.right(90)
-                grid.forward(50)
-                grid.right(90)
-                grid.forward(50)
-                grid.right(90)
-                grid.penup()
+                draw_square()
                 x += 50
             x = -125
             y -= 50
@@ -158,13 +160,32 @@ class Board():
         t.clear()
         t.penup()
         t.hideturtle()
-        t.goto(-100,100)
+        t.goto(-100, 100)
         t.penup()
+
+        color_map = {
+            0: "white",
+            2: "red",
+            4: "green",
+            8: "blue",
+            16: "yellow",
+            32: "cyan",
+            64: "magenta",
+            128: "orange",
+            256: "purple",
+            512: "pink",
+            1024: "teal",
+            2048: "lavender",
+        }
+
+
         for row in self.tiles:
             for tile in row:
+                t.color(color_map.get(tile))  
                 t.write(tile, align="center", font=("Arial", 14, "normal"))
                 t.forward(50)
             t.backward(200)
             t.right(90)
             t.forward(50)
-            t.left(90) 
+            t.left(90)
+         
